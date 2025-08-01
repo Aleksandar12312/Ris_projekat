@@ -1,0 +1,30 @@
+<div class="container">
+    
+    <div class="book-card">
+        <h2 class="pointer" (click)="goToBookPage($event,book)" >Naslov: {{book.naslov}}</h2>
+        <p>Pisac: {{book.pisacIme}}</p>
+        <p>Opis: {{book.opis}}</p>
+
+    </div>
+    <div class="rating">
+        <form>
+            <button class="button-rating" (click)="clickRating($event,button1)" (click)="rate(1)"  #button1>1</button>
+            <button class="button-rating" (click)="clickRating($event,button2)"(click)="rate(2)" #button2>2</button>
+            <button class="button-rating" (click)="clickRating($event,button3)"(click)="rate(3)" #button3>3</button>
+            <button class="button-rating" (click)="clickRating($event,button4)"(click)="rate(4)" #button4>4</button>
+            <button class="button-rating" (click)="clickRating($event,button5)"(click)="rate(5)" #button5>5</button>
+            
+        
+        </form>
+    </div>
+    <div class="heart-wrapper" (click)="toggleHeart()" [class.active]="isActive">
+        <svg class="hearth" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+            <path [attr.fill]="isActive ? '#e57171' : 'gray'" 
+            d="M7.975 2c-2.235.116-4.365 1.203-5.82 2.89C.7 6.57 0 8.786 0 11c0 1.938.697 3.816 1.646 5.46.95 1.644 2.19 3.077 3.5 4.394a39.552 39.552 0 0 0 9.622 7.09.5.5 0 0 0 .464 0 39.533 39.533 0 0 0 9.622-7.09c1.31-1.317 2.55-2.75 3.5-4.393C29.304 14.817 30 12.94 30 11c0-2.22-.7-4.428-2.154-6.11C26.39 3.202 24.26 2.115 22.026 2a7.996 7.996 0 0 0-4.362 1.04c-1.097.626-1.975 1.558-2.664 2.614-.69-1.056-1.567-1.988-2.664-2.615A7.973 7.973 0 0 0 7.976 2zm.05 1a7.02 7.02 0 0 1 3.813.906 7.034 7.034 0 0 1 2.72 2.824c.186.36.698.36.885 0a7.014 7.014 0 0 1 2.72-2.824A7.01 7.01 0 0 1 21.975 3c1.942.1 3.837 1.062 5.115 2.54C28.37 7.023 29 9 29 11c0 1.73-.628 3.43-1.512 4.96-.885 1.535-2.064 2.904-3.342 4.186A38.458 38.458 0 0 1 15 26.912a38.458 38.458 0 0 1-9.146-6.766c-1.278-1.282-2.457-2.65-3.342-4.185C1.628 14.43 1 12.73 1 11c0-2 .63-3.978 1.91-5.46C4.188 4.063 6.083 3.1 8.025 3z"
+            />
+        </svg>
+        </div>
+      
+    
+    
+</div>

@@ -1,0 +1,22 @@
+<body>
+    <div class="login">
+    <form >
+        <label>
+            Korisnicko ime:<br>
+            <input type="text" #username>
+        </label>
+        <br>
+        <label>
+            Lozinka:<br>
+            <input type="password" #password>
+        </label>
+        <br>
+        <input (click)="login(username.value,password.value,$event)" type="submit" value="Prijavite se!">
+        <br>
+        
+        <button (click)="goToRegister($event)" >Nemate nalog?</button>
+        
+       
+    </form>
+    </div>
+</body>

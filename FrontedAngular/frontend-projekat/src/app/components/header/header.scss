@@ -1,0 +1,30 @@
+*{
+    font-size: 1.25rem;
+}
+header{
+    display: flex;
+    background-color: #CCD5AE;
+    align-items: center;
+}
+.header-left{
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    
+    padding: 5px 20px;
+    width: 100%;
+    color: #BC6C25;
+}
+.search-label{
+    position: relative;
+}
+.search-button{
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    
+}
+.svg-profile{
+    border-radius: 50%;
+    margin: 20px;
+}

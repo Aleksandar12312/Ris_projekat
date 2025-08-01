@@ -1,0 +1,35 @@
+<app-header></app-header>
+@if (book) {
+  <div class="book-page-container">
+    
+    <h1>{{ book.naslov}}</h1>
+    <h2>{{book.pisacIme}}</h2>
+    
+    <div class="rating">
+        <form>
+            <button class="button-rating" (click)="clickRating($event,button1)" (click)="rate(1)"  #button1>1</button>
+            <button class="button-rating" (click)="clickRating($event,button2)"(click)="rate(2)" #button2>2</button>
+            <button class="button-rating" (click)="clickRating($event,button3)"(click)="rate(3)" #button3>3</button>
+            <button class="button-rating" (click)="clickRating($event,button4)"(click)="rate(4)" #button4>4</button>
+            <button class="button-rating" (click)="clickRating($event,button5)"(click)="rate(5)" #button5>5</button>
+            
+        
+        </form>
+    </div>
+    <div>
+      Kolekcija omiljenih knjiga:
+       <button (click)="addBookToCollection(1)" class="button-collection">Dodaj u omiljene knjige</button>
+        <button class="button-collection">Izbaci iz omiljenih knjiga</button>
+        </div>
+        <br>
+        <div>
+          Kolekcija procitanih knjiga:
+          <button (click)="addBookToCollection(2)" class="button-collection">Dodaj u procitane knjige</button>
+          <button class="button-collection">Izbaci iz procitanih knjiga</button>
+        </div>
+  </div>
+
+  
+} @else {
+  <p>Nema podataka o knjizi.</p>
+}

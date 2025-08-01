@@ -1,0 +1,48 @@
+.container{
+    background-color: #FAEDCD;
+    width: max(50%,400px);
+    border-radius: 20px;
+   margin: 20px 20px 0 20px;
+   padding: 10px;
+   inline-size: 1.5;
+   
+}
+.button-rating{
+    border-radius: 50%;
+    margin:2px;
+    width: 20px;
+    height: 20px;
+    border: none;
+    background-color: #D4A373;
+    transition: .5s;
+}
+.button-rating:hover{
+    box-shadow: 0 0 8px;
+}
+.clicked-button{
+    box-shadow: 0 0 8px;
+    
+}
+.pointer{
+    cursor: pointer;
+}
+.heart-wrapper {
+  display: inline-block;
+  padding: 5px;
+  border-radius: 50%;
+    width: 30px;
+  height: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.heart-wrapper.active {
+  background-color: #ffe6e6; /* opciono */
+}
+.read-button{
+    border-radius: 14px;
+    padding:7px;
+    border:thin;
+    border-color: #FAEDCD;
+    background-color: #D4A373;
+}

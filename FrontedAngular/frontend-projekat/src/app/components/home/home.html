@@ -1,0 +1,9 @@
+<app-header (clicked)="showSearchedBooks($event)"></app-header>
+<div class="books-container">
+ @for (b of books; track $index + '-' + (b.idKnjiga || 'null')) {
+    <app-book [book]="b"></app-book>
+}
+</div>
+
+
+

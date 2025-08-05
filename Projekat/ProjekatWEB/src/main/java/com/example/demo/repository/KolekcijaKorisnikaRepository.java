@@ -14,4 +14,11 @@ public interface KolekcijaKorisnikaRepository extends JpaRepository<Kolekcijakor
     @Query("DELETE FROM Kolekcijakorisnika kk "
     		+ "WHERE kk.korisnik.idKorisnik = :korisnikId AND kk.knjiga.idKnjiga = :knjigaId AND kk.kolekcija.idKolekcija=:kolekcijaId")
     void deleteByKorisnikIdAndKnjigaId(@Param("korisnikId") int korisnikId, @Param("knjigaId") int knjigaId,@Param("kolekcijaId") int kolekcijaId);
+	
+	@Query("SELECT COUNT(kk) FROM Kolekcijakorisnika kk WHERE kk.knjiga.idKnjiga = :knjigaId AND kk.kolekcija.nazivKolekcije = 'omiljeneKnjige'")
+
+	int numberOfOmiljeneKnjige(@Param("knjigaId") int knjigaId);//nzm da li je ovo zadnje dobro =2
+	
+	@Query("SELECT COUNT(kk) FROM Kolekcijakorisnika kk WHERE kk.knjiga.idKnjiga = :knjigaId AND kk.kolekcija.nazivKolekcije = 'procitaneKnjige'")
+	int numberOfProcitaneKnjige(@Param("knjigaId") int knjigaId);
 }

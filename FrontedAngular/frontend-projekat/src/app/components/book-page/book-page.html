@@ -5,6 +5,8 @@
     <h1>{{ book.naslov}}</h1>
     <h2>{{book.pisacIme}}</h2>
     
+    
+    
     <div class="rating">
         <form>
             <button class="button-rating" (click)="clickRating($event,button1)" (click)="rate(1)"  #button1>1</button>
@@ -27,6 +29,9 @@
           <button (click)="addBookToCollection(2)" class="button-collection">Dodaj u procitane knjige</button>
           <button class="button-collection">Izbaci iz procitanih knjiga</button>
         </div>
+        @if(role=="ROLE_ADMIN"){
+          <button class="button-jasper" (click)="generisiIzvestaj(book.idPisac)">Izgenerisite izvestaj!</button>
+        }
   </div>
 
   

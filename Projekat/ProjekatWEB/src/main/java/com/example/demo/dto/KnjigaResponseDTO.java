@@ -19,6 +19,8 @@ public class KnjigaResponseDTO {
 	
 	private String pisacIme;
 	
+	private int idPisac;
+	
 	private List<String> zanrovi;
 	
 	public KnjigaResponseDTO(Knjiga k) {
@@ -27,6 +29,9 @@ public class KnjigaResponseDTO {
 		this.opis=k.getOpis();
 		this.originalniJezik=k.getOriginalniJezik();
 		this.pisacIme=k.getPisac().getIme();
+		
+		this.idPisac=k.getPisac().getIdPisac();
+		
 		this.zanrovi=k.getZanrknjiges().stream().map(zanrknjiga->zanrknjiga.getZanr().getNazivZanra()).toList();
 	}
 	public String getNaslov() {
@@ -74,6 +79,14 @@ public class KnjigaResponseDTO {
 	public void setIdKnjiga(Integer idKnjiga) {
 		this.idKnjiga = idKnjiga;
 	}
+	public int getIdPisac() {
+		return idPisac;
+	}
+	public void setIdPisac(int idPisac) {
+		this.idPisac = idPisac;
+	}
+	
+	
 	
 	
 	

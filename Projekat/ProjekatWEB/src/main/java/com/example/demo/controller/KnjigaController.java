@@ -1,10 +1,13 @@
 package com.example.demo.controller;
 
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.commons.beanutils.ConversionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +29,18 @@ import com.example.demo.dto.KolekcijaKorisnikaDTO;
 import com.example.demo.dto.OcenaDTO;
 import com.example.demo.dto.PisacDTO;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -34,6 +49,7 @@ import model.Knjiga;
 import model.Kolekcijakorisnika;
 import model.Pisac;
 import model.Zanr;
+import net.sf.jasperreports.engine.JRException;
 
 @RestController
 @RequestMapping("knjigaController")
@@ -193,6 +209,25 @@ public class KnjigaController {
 		return ResponseEntity.ok("Uspesno obrisano iz kolekcije");
 	}
 	
+	@GetMapping("pisacIzvestaj")
+	public ResponseEntity<?> pisacIzvestaj(@RequestParam Integer idPisac) {//RequestBody je samo za testiranje
+		try {
+			
+			byte[] izvestaj=servis.kreirajIzvestaj(idPisac);
+			
+        	if (izvestaj == null) { //u slucaju da nema izvodjenja za unete parametre
+    		return ResponseEntity.ok("Nema izvodjenja za unete parametre.");
+    	}
+    	HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/pdf"));
+        headers.setContentDispositionFormData("attachment", "pisacIzvestaj.pdf");
+        return ResponseEntity.ok()
+            .headers(headers)
+            .body(izvestaj);
+		}
+		catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Greška prilikom generisanja izveštaja.");
+		}
+	}
 	
-
 }

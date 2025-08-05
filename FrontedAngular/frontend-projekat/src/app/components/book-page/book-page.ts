@@ -20,14 +20,18 @@ export class BookPage implements OnInit{
   book: IBook|undefined;
   serviceKorisnikObj=inject(ServiceUser);
   serviceBookObj=inject(ServiceBook);
-  
+  role:string|undefined;
   
   ngOnInit() {
     const bookString = localStorage.getItem('book');
+    const userRole=localStorage.getItem('role');
     if (bookString) {
       this.book = JSON.parse(bookString);
     } else {
       this.router.navigate(['/home']);
+    }
+    if(userRole){
+      this.role=userRole;
     }
   }
   rate(ocena: number) {
@@ -84,6 +88,19 @@ export class BookPage implements OnInit{
 
 toggleHeart() {
   this.isActive = !this.isActive;
+}
+
+generisiIzvestaj(idPisac:number){
+   this.serviceBookObj.generisiIzvestaj(idPisac).subscribe({
+    next: (blob) => {
+      const file = new Blob([blob], { type: 'application/pdf' });
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL); // ili koristi download ako želiš da se fajl automatski skine
+    },
+    error: (err) => {
+      console.error("Greška pri generisanju izveštaja:", err);
+    }
+  });
 }
 
 }

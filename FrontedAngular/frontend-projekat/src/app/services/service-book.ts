@@ -9,6 +9,7 @@ import { Collection } from '../models/Collection';
   providedIn: 'root'
 })
 export class ServiceBook {
+ 
   private  http=inject(HttpClient);
 
 
@@ -55,7 +56,12 @@ export class ServiceBook {
       error:e=>{}
   });
 
+  }
 
+   generisiIzvestaj(idPisac: number) {
+    
+    let url = `http://localhost:8080/Projekat/knjigaController/pisacIzvestaj?idPisac=${idPisac}`;
+     return this.http.get(url, { responseType: 'blob' });
   }
 
 }

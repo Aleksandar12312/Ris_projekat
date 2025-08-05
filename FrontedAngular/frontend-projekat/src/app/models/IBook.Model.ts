@@ -4,5 +4,6 @@ export interface IBook{
   opis:string;
   originalniJezik:string;
   pisacIme:string;
+  idPisac:number;
   zanrovi:Array<string>;
 }

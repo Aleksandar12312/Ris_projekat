@@ -1,9 +1,13 @@
 package com.example.demo.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +43,13 @@ import model.Pisac;
 import model.Uloga;
 import model.Zanr;
 import model.Zanrknjige;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 @Service
 public class Servis {
 	
@@ -154,6 +165,29 @@ public class Servis {
 		}
 	}
 	
+	public String saveKorisnik(Korisnik k) {
+		try {
+			k.setLozinka(encoder.encode(k.getLozinka()));
+			korr.save(k);
+			
+			return jwtService.generateToken(k.getKorisnickoIme());
+		}
+		catch(Exception e) {
+			return "Neuspesna registracija";
+		}
+	}
+	
+	public void saveKolekcijaKorisnika(@Valid KolekcijaKorisnikaDTO kolekcijaDTO,int idKolekcija) {
+		Optional<Knjiga> knjiga=kr.findById(kolekcijaDTO.getIdKnjiga());
+		Optional<Korisnik> korisnik=korr.findById(kolekcijaDTO.getIdKorisnik());
+		Optional<Kolekcija> kolekcija=kolekcijar.findById(idKolekcija);
+		if(knjiga.get()!=null&&korisnik.get()!=null) {
+			Kolekcijakorisnika kol=new Kolekcijakorisnika(knjiga.get(), kolekcija.get(), korisnik.get());
+			kkr.save(kol);
+		}
+		
+	}
+	
 	//save
 	
 	public List<KnjigaResponseDTO> searchKnjiga(String searchTitle){
@@ -200,28 +234,7 @@ public class Servis {
 			return false;
 		}
 	}
-	public String saveKorisnik(Korisnik k) {
-		try {
-			k.setLozinka(encoder.encode(k.getLozinka()));
-			korr.save(k);
-			
-			return jwtService.generateToken(k.getKorisnickoIme());
-		}
-		catch(Exception e) {
-			return "Neuspesna registracija";
-		}
-	}
-	
-	public void saveKolekcijaKorisnika(@Valid KolekcijaKorisnikaDTO kolekcijaDTO,int idKolekcija) {
-		Optional<Knjiga> knjiga=kr.findById(kolekcijaDTO.getIdKnjiga());
-		Optional<Korisnik> korisnik=korr.findById(kolekcijaDTO.getIdKorisnik());
-		Optional<Kolekcija> kolekcija=kolekcijar.findById(idKolekcija);
-		if(knjiga.get()!=null&&korisnik.get()!=null) {
-			Kolekcijakorisnika kol=new Kolekcijakorisnika(knjiga.get(), kolekcija.get(), korisnik.get());
-			kkr.save(kol);
-		}
-		
-	}
+
 
 	
 	public KorisnikResponseDTO verify(Korisnik k) {
@@ -247,15 +260,36 @@ public class Servis {
 			
 	}
 
-
 	public Integer findId(String username) {
 		return korr.findByKorisnickoIme(username).getIdKorisnik();
 		
 	}
 
-
 	 public void obrisiOmiljenuKnjigu(int korisnikId, int knjigaId,int kolekcijaId) {
 	        kkr.deleteByKorisnikIdAndKnjigaId(korisnikId, knjigaId,kolekcijaId);
 	    }
 	
+	 public byte[] kreirajIzvestaj(Integer idPisac) throws JRException, IOException {
+		 
+		 if(kr.findByPisacIdPisac(idPisac).size()>0) {
+			 
+			 Optional<Pisac> p=pr.findById(idPisac);
+			 System.out.println("Naslov:"+p.get().getIme());
+			 JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(kr.findByPisacIdPisac(idPisac));
+			 InputStream inputStream = this.getClass().getResourceAsStream("/jasperreports/pisacIzvestaj.jrxml");
+			 JasperReport jasperReport = JasperCompileManager.compileReport(inputStream);
+			 Map<String, Object> params = new HashMap<String, Object>();
+			 
+			 params.put("imePisca", p.get().getIme());
+			 JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
+			 inputStream.close();
+			 return JasperExportManager.exportReportToPdf(jasperPrint);
+		 }
+		 else {
+			 System.out.println("Ne vraca knjige!");
+		 }
+		 return null;
+	 }
+
+	 
 }

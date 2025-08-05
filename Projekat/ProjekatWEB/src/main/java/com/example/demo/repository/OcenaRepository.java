@@ -19,4 +19,10 @@ public interface OcenaRepository extends JpaRepository<Ocena, Integer>{
 	                @Param("komentar") String komentar,
 	                @Param("idKorisnik") int idKorisnik,
 	                @Param("idKnjiga") int idKnjiga);
+	
+	@Query("SELECT AVG(o.ocena) FROM Ocena o WHERE o.knjiga.id = :idKnjiga")
+	float averageOcena(@Param("idKnjiga") int idKnjiga);
+
+
+
 }

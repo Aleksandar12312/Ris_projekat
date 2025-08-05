@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface PisacRepository extends JpaRepository<Pisac, Integer>{
 	List<Pisac> findByImeContainingIgnoreCase(String ime);
+	
 }
